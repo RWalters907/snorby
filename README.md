@@ -10,6 +10,7 @@ A cuddly, friendly FastAPI web app for family tools, automation, and fun — wit
 - All dependencies listed in `requirements.txt`
 - Transparent PNGs and full favicon set included
 - Project tested using modern browsers for compatibility
+- `.env` file required with `OPENAI_API_KEY` for summarizer tool
 
 ---
 
@@ -22,6 +23,12 @@ source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
+```
+
+Create a `.env` file in the root directory with:
+
+```env
+OPENAI_API_KEY=your-openai-api-key-here
 ```
 
 ---
@@ -53,6 +60,7 @@ snorby/
 │   │   └── bills_sheet.html
 │   └── static/
 │       ├── style.css
+│       ├── script.js
 │       ├── js/
 │       │   └── main.js
 │       ├── images/
@@ -65,8 +73,32 @@ snorby/
 │           ├── site.webmanifest
 │           └── ...
 ├── requirements.txt
+├── .env
 └── README.md
 ```
+
+---
+
+## 🧠 Smart Summarizer Integration
+
+The Smart Summarizer is now fully integrated into Snorby as a standalone page powered by the OpenAI API.
+
+- Visit: `http://127.0.0.1:8000/smart_summarizer`
+- Enter/paste any long text
+- Press the “Summarize” button
+- The result will appear in a styled box below
+
+### Key Files
+
+- `app/templates/smart_summarizer.html` — HTML frontend
+- `app/static/script.js` — Handles the form POST
+- `/summarize` route in `main.py` — Calls OpenAI's API
+
+### Behavior
+
+- FastAPI backend uses the OpenAI Python SDK
+- Prompts GPT-3.5 with clean summarization instructions
+- Response is stripped of disclaimers or AI-flavored phrasing
 
 ---
 
@@ -96,5 +128,5 @@ uvicorn app.main:app --reload
 
 ---
 
-Enjoy Snorby 💤 - JRW
+Enjoy Snorby 💤 – RW
 
