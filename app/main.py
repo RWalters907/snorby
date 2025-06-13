@@ -59,3 +59,16 @@ async def summarize(text: str = Form(...)):
         return {"summary": summary}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
+# Placeholder tool routes
+@app.get("/get_weather", response_class=HTMLResponse)
+def weather_placeholder(request: Request):
+    return templates.TemplateResponse("placeholder.html", {"request": request, "tool": "Weather Tool"})
+
+@app.get("/monster", response_class=HTMLResponse)
+def monster_placeholder(request: Request):
+    return templates.TemplateResponse("placeholder.html", {"request": request, "tool": "Monster Generator"})
+
+@app.get("/bills_sheet", response_class=HTMLResponse)
+def bills_placeholder(request: Request):
+    return templates.TemplateResponse("placeholder.html", {"request": request, "tool": "Bills Sheet"})
