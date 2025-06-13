@@ -19,26 +19,27 @@ openai_client = OpenAI(api_key=api_key)
 # Initialize FastAPI app
 app = FastAPI()
 
-# CORS (optional: adjust origins as needed)
+# CORS (adjust for production if needed)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Mount static and templates directories
+# Mount static and templates
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
-# Routes
+# === Homepage ===
 @app.get("/", response_class=HTMLResponse)
 def read_home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get("/smart_summarizer", response_class=HTMLResponse)
-def smart_summarizer_page(request: Request):
+# === Summarizer ===
+@app.get("/summarizer", response_class=HTMLResponse)
+def summarizer_page(request: Request):
     return templates.TemplateResponse("summarizer.html", {"request": request})
 
 @app.post("/summarize")
@@ -60,15 +61,15 @@ async def summarize(text: str = Form(...)):
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
 
-# Placeholder tool routes
-@app.get("/get_weather", response_class=HTMLResponse)
+# === Placeholder Tools ===
+@app.get("/bills", response_class=HTMLResponse)
+def bills_placeholder(request: Request):
+    return templates.TemplateResponse("placeholder.html", {"request": request, "tool": "Bills Sheet"})
+
+@app.get("/weather", response_class=HTMLResponse)
 def weather_placeholder(request: Request):
     return templates.TemplateResponse("placeholder.html", {"request": request, "tool": "Weather Tool"})
 
 @app.get("/monster", response_class=HTMLResponse)
 def monster_placeholder(request: Request):
     return templates.TemplateResponse("placeholder.html", {"request": request, "tool": "Monster Generator"})
-
-@app.get("/bills_sheet", response_class=HTMLResponse)
-def bills_placeholder(request: Request):
-    return templates.TemplateResponse("placeholder.html", {"request": request, "tool": "Bills Sheet"})
