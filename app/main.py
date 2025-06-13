@@ -1,11 +1,61 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from app import routes
+from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+from openai import OpenAI
 
+# Load environment variables
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+
+# Initialize OpenAI client
+if not api_key:
+    raise RuntimeError("OPENAI_API_KEY not found in environment.")
+openai_client = OpenAI(api_key=api_key)
+
+# Initialize FastAPI app
 app = FastAPI()
 
-# Mount static files (CSS, JS, images, etc.)
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+# CORS (optional: adjust origins as needed)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# Include all your page routes
-app.include_router(routes.router)
+# Mount static and templates directories
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+templates = Jinja2Templates(directory="app/templates")
+
+# Routes
+@app.get("/", response_class=HTMLResponse)
+def read_home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/smart_summarizer", response_class=HTMLResponse)
+def smart_summarizer_page(request: Request):
+    return templates.TemplateResponse("summarizer.html", {"request": request})
+
+@app.post("/summarize")
+async def summarize(text: str = Form(...)):
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a professional summarizer. Return clean, clear summaries without prefacing or disclaimers.",
+                },
+                {"role": "user", "content": text},
+            ],
+            temperature=0.5,
+        )
+        summary = response.choices[0].message.content.strip()
+        return {"summary": summary}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
