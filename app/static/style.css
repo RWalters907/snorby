@@ -29,8 +29,9 @@ h1 {
     color: #555;
 }
 
-/* === Tool Buttons Row === */
-.button-row {
+/* === Tool Buttons Row (.button-row and .tool-buttons supported) === */
+.button-row,
+.tool-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
