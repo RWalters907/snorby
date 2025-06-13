@@ -1,4 +1,4 @@
-k/* === Base Styles === */
+/* === Base Styles === */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f5f5fc;
@@ -13,9 +13,6 @@ body {
     max-width: 800px;
     margin: auto;
     padding: 2em;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 /* === Homepage Header === */
@@ -26,13 +23,14 @@ h1 {
     font-weight: 600;
 }
 
-p {
+.tagline {
     font-style: italic;
     margin-bottom: 2rem;
+    color: #555;
 }
 
-/* === Tool Buttons Grid (Fixed) === */
-.tool-buttons {
+/* === Tool Buttons Row === */
+.button-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -42,31 +40,32 @@ p {
 
 .tool-button {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    gap: 8px;
+    background-color: #5e2ca5;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
     text-decoration: none;
-    color: #333;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
     font-size: 14px;
-    font-weight: 500;
-    width: 130px;
-    text-align: center;
-    transition: transform 0.2s ease;
 }
 
 .tool-button:hover {
+    background-color: #4c2391;
     transform: scale(1.05);
 }
 
 .tool-button i {
-    font-size: 28px;
-    margin-bottom: 8px;
-    color: #5e2ca5;
+    font-size: 20px;
 }
 
-/* === Responsive Image === */
-img {
+/* === Snorby Image === */
+.snorby-image {
     max-width: 100%;
     height: auto;
+    margin-top: 20px;
     border-radius: 12px;
 }
 
@@ -89,7 +88,7 @@ textarea {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* === Buttons === */
+/* === Form Button === */
 button {
     background-color: #5e2ca5;
     color: white;
