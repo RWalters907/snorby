@@ -1,28 +1,29 @@
 {% extends "layout.html" %}
-{% block title %}Snorby.net{% endblock %}
+
+{% block title %}Welcome to Snorby.net 💤{% endblock %}
 
 {% block content %}
-    <h1 class="title">Welcome to Snorby.net 🌙</h1>
-    <p class="tagline"><em>In the land of Snorby, where naps are king,<br>You'll find fun and tools that do a bit of everything.</em></p>
+  <h1>Welcome to Snorby.net 💤</h1>
+  <p>Your cozy home for helpful tools and sleepy solutions</p>
 
-    <div class="tool-links">
-        <a href="/smart_summarizer" class="tool-link">
-            <i class="fas fa-brain"></i>
-            <span>Smart Summarizer</span>
-        </a>
-        <a href="/get_weather" class="tool-link">
-            <i class="fas fa-cloud-sun"></i>
-            <span>Get Weather</span>
-        </a>
-        <a href="/monster" class="tool-link">
-            <i class="fas fa-paw"></i>
-            <span>Monster Generator</span>
-        </a>
-        <a href="/bills_sheet" class="tool-link">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <span>Bills Sheet</span>
-        </a>
-    </div>
+  <div class="tool-buttons">
+    <a href="/smart_summarizer" class="tool-button">
+      <i class="fas fa-align-left"></i>
+      <span>Smart Summarizer</span>
+    </a>
+    <a href="/bills" class="tool-button">
+      <i class="fas fa-file-invoice-dollar"></i>
+      <span>Bills Sheet</span>
+    </a>
+    <a href="/weather" class="tool-button">
+      <i class="fas fa-cloud-sun"></i>
+      <span>Weather</span>
+    </a>
+    <a href="/monster" class="tool-button">
+      <i class="fas fa-ghost"></i>
+      <span>Monster Generator</span>
+    </a>
+  </div>
 
-    <img src="/static/images/Snorby.png" alt="Snorby Image" class="snorby-img">
+  <img src="/static/images/Snorby.png" alt="Snorby Mascot">
 {% endblock %}
