@@ -29,7 +29,7 @@ h1 {
     color: #555;
 }
 
-/* === Tool Buttons Row (.button-row and .tool-buttons supported) === */
+/* === Tool Buttons Row === */
 .button-row,
 .tool-buttons {
     display: flex;
@@ -63,10 +63,16 @@ h1 {
 }
 
 /* === Snorby Image === */
+.image-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
 .snorby-image {
-    max-width: 100%;
+    max-width: 300px;
+    width: 100%;
     height: auto;
-    margin-top: 20px;
     border-radius: 12px;
 }
 

@@ -1,29 +1,40 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Snorby.net 💤</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Snorby.net 💤</h1>
+        <p class="tagline">A cozy hub for tools, tasks, and togetherness.</p>
 
-{% block title %}Welcome to Snorby.net 💤{% endblock %}
+        <div class="button-row">
+            <a href="/summarizer" class="tool-button">
+                <i class="fas fa-highlighter"></i>
+                Smart Summarizer
+            </a>
+            <a href="/bills" class="tool-button">
+                <i class="fas fa-file-invoice-dollar"></i>
+                Bills Sheet
+            </a>
+            <a href="/weather" class="tool-button">
+                <i class="fas fa-cloud-sun"></i>
+                Weather
+            </a>
+            <a href="/monster" class="tool-button">
+                <i class="fas fa-dungeon"></i>
+                Monster Generator
+            </a>
+        </div>
 
-{% block content %}
-  <h1>Welcome to Snorby.net 💤</h1>
-  <p>Your cozy home for helpful tools and sleepy solutions</p>
-
-  <div class="tool-buttons">
-    <a href="/smart_summarizer" class="tool-button">
-      <i class="fas fa-align-left"></i>
-      <span>Smart Summarizer</span>
-    </a>
-    <a href="/bills" class="tool-button">
-      <i class="fas fa-file-invoice-dollar"></i>
-      <span>Bills Sheet</span>
-    </a>
-    <a href="/weather" class="tool-button">
-      <i class="fas fa-cloud-sun"></i>
-      <span>Weather</span>
-    </a>
-    <a href="/monster" class="tool-button">
-      <i class="fas fa-ghost"></i>
-      <span>Monster Generator</span>
-    </a>
-  </div>
-
-  <img src="/static/images/Snorby.png" alt="Snorby Mascot">
-{% endblock %}
+        <div class="image-wrapper">
+            <img src="/static/images/Snorby.png" alt="Snorby the Mascot" class="snorby-image">
+        </div>
+    </div>
+</body>
+</html>
