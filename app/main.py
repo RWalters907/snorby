@@ -30,7 +30,7 @@ app = FastAPI()
 # === Middleware ===
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # adjust for production
+    allow_origins=["*"],  # Adjust to your domains for production security
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -61,7 +61,13 @@ def summarizer_page(request: Request):
 @app.post("/summarize")
 async def summarize(input: TextInput):
     try:
-        logging.info("Received text for summarization (truncated): %s", input.text[:100])
+        trimmed_text = input.text.strip()
+        if not trimmed_text:
+            logging.warning("Empty text received for summarization.")
+            return JSONResponse(status_code=400, content={"error": "Input text is empty."})
+
+        logging.info("Received text for summarization (truncated): %s", trimmed_text[:100])
+
         response = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -69,7 +75,7 @@ async def summarize(input: TextInput):
                     "role": "system",
                     "content": "You are a professional summarizer. Return clean, clear summaries without prefacing or disclaimers.",
                 },
-                {"role": "user", "content": input.text},
+                {"role": "user", "content": trimmed_text},
             ],
             temperature=0.5,
             max_tokens=300,
@@ -82,29 +88,29 @@ async def summarize(input: TextInput):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"summary_{timestamp}_{uuid.uuid4().hex[:6]}.txt"
         filepath = os.path.join(SUMMARY_DIR, filename)
-        with open(filepath, "w") as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             f.write(summary)
         logging.info(f"Summary saved to {filepath}")
 
         return {"summary": summary, "filename": filename}
 
     except Exception as e:
-        logging.error(f"Error during summarization: {e}")
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        logging.error(f"Error during summarization: {e}", exc_info=True)
+        return JSONResponse(status_code=500, content={"error": "Internal server error."})
 
 @app.get("/download/{filename}")
 async def download_summary(filename: str):
     filepath = os.path.join(SUMMARY_DIR, filename)
-    if not os.path.exists(filepath):
+    if not os.path.isfile(filepath):
         logging.warning(f"Summary file not found: {filename}")
-        return JSONResponse(status_code=404, content={"error": "Summary file not found"})
+        return JSONResponse(status_code=404, content={"error": "Summary file not found."})
     return FileResponse(
         filepath,
         media_type="text/plain",
         filename=filename
     )
 
-# === Placeholder Routes ===
+# === Placeholder Routes for other tools ===
 
 @app.get("/bills", response_class=HTMLResponse)
 def bills_placeholder(request: Request):
