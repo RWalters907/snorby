@@ -1,50 +1,67 @@
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-import os
 from openai import OpenAI
+from pydantic import BaseModel
+import os
+import uuid
+from datetime import datetime
+import logging
 
-# Load environment variables
+# === Setup logging ===
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
+# === Load environment variables ===
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
-
-# Initialize OpenAI client
 if not api_key:
+    logging.error("❌ OPENAI_API_KEY not found in environment.")
     raise RuntimeError("OPENAI_API_KEY not found in environment.")
+
+# === Initialize OpenAI client ===
 openai_client = OpenAI(api_key=api_key)
 
-# Initialize FastAPI app
+# === FastAPI App Setup ===
 app = FastAPI()
 
-# CORS (adjust for production if needed)
+# === Middleware ===
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # adjust for production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Mount static and templates
+# === Mount Static and Templates ===
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
-# === Homepage ===
+# === Summary Directory Setup ===
+SUMMARY_DIR = "summaries"
+os.makedirs(SUMMARY_DIR, exist_ok=True)
+
+# === Models ===
+class TextInput(BaseModel):
+    text: str
+
+# === Routes ===
+
 @app.get("/", response_class=HTMLResponse)
 def read_home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# === Summarizer ===
 @app.get("/summarizer", response_class=HTMLResponse)
 def summarizer_page(request: Request):
     return templates.TemplateResponse("summarizer.html", {"request": request})
 
 @app.post("/summarize")
-async def summarize(text: str = Form(...)):
+async def summarize(input: TextInput):
     try:
+        logging.info("Received text for summarization (truncated): %s", input.text[:100])
         response = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -52,16 +69,43 @@ async def summarize(text: str = Form(...)):
                     "role": "system",
                     "content": "You are a professional summarizer. Return clean, clear summaries without prefacing or disclaimers.",
                 },
-                {"role": "user", "content": text},
+                {"role": "user", "content": input.text},
             ],
             temperature=0.5,
+            max_tokens=300,
         )
+
         summary = response.choices[0].message.content.strip()
-        return {"summary": summary}
+        logging.info("Summary generated successfully.")
+
+        # Save summary to file
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"summary_{timestamp}_{uuid.uuid4().hex[:6]}.txt"
+        filepath = os.path.join(SUMMARY_DIR, filename)
+        with open(filepath, "w") as f:
+            f.write(summary)
+        logging.info(f"Summary saved to {filepath}")
+
+        return {"summary": summary, "filename": filename}
+
     except Exception as e:
+        logging.error(f"Error during summarization: {e}")
         return JSONResponse(status_code=500, content={"error": str(e)})
 
-# === Placeholder Tools ===
+@app.get("/download/{filename}")
+async def download_summary(filename: str):
+    filepath = os.path.join(SUMMARY_DIR, filename)
+    if not os.path.exists(filepath):
+        logging.warning(f"Summary file not found: {filename}")
+        return JSONResponse(status_code=404, content={"error": "Summary file not found"})
+    return FileResponse(
+        filepath,
+        media_type="text/plain",
+        filename=filename
+    )
+
+# === Placeholder Routes ===
+
 @app.get("/bills", response_class=HTMLResponse)
 def bills_placeholder(request: Request):
     return templates.TemplateResponse("placeholder.html", {"request": request, "tool": "Bills Sheet"})
