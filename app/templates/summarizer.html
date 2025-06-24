@@ -4,7 +4,14 @@
   <meta charset="UTF-8" />
   <title>Smart Summarizer</title>
   <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+  
+  <!-- Snorby Global Styles (do not delete) -->
   <link rel="stylesheet" href="/static/style.css" />
+
+  <!-- Tool-Specific Styles -->
+  <link rel="stylesheet" href="/static/style_summarizer.css" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
@@ -21,7 +28,7 @@
     </form>
 
     <div id="result" class="output-box" style="display: none;">
-      <p id="summary-text"></p>
+      <p id="summary-text" style="text-align: left;"></p>
       <div class="button-row">
         <a id="download-link" href="#" class="download-button" style="display: none;" download="summary.txt">Save</a>
       </div>
