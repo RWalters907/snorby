@@ -1,80 +1,64 @@
-/* === Smart Summarizer === */
-.summarizer-container {
-  max-width: 700px;
-  margin: 60px auto;
-  padding: 30px;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
+/* === Base Styles === */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5fc;
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 50px 20px;
 }
 
-.summarizer-container h1 {
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 24px;
-  color: #5e2ca5;
+/* === Layout === */
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 2em;
 }
 
-#text-input {
-  width: 100%;
-  height: 180px;
-  padding: 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-family: 'Poppins', sans-serif;
-  resize: vertical;
-  margin-bottom: 20px;
-  box-sizing: border-box;
+/* === Homepage Header === */
+h1 {
+    font-size: 2.5rem;
+    color: #5e2ca5;
+    margin-bottom: 0.5em;
+    font-weight: 600;
 }
 
-.output-box {
-  margin-top: 20px;
-  background-color: #f2f2ff;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
+.tagline {
+    font-style: italic;
+    margin-bottom: 2rem;
+    color: #555;
 }
 
+/* === Button Row === */
 .button-row {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
 }
 
-button, .download-button {
-  background-color: #5e2ca5;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: 600;
-  text-align: center;
-  text-decoration: none;
+.tool-button {
+    background-color: #5e2ca5;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-button:hover, .download-button:hover {
-  background-color: #4c2391;
+.tool-button:hover {
+    background-color: #4c2391;
+    transform: scale(1.05);
 }
 
-.bouncing {
-  animation: bounce 0.4s ease;
-}
-
-@keyframes bounce {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-
-#summary-text {
-  white-space: pre-wrap;
-  font-size: 15px;
-  color: #333;
-  line-height: 1.6;
-  text-align: left; /* ✅ added for proper summary alignment */
+/* === Snorby Image === */
+.snorby-image {
+    display: block;
+    margin: 20px auto 0;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
 }
