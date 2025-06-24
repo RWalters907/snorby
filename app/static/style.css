@@ -1,133 +1,80 @@
-/* === Base Styles === */
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f5f5fc;
-    color: #333;
-    text-align: center;
-    margin: 0;
-    padding: 50px 20px;
+/* === Smart Summarizer === */
+.summarizer-container {
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 30px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
 }
 
-/* === Layout === */
-.container {
-    max-width: 800px;
-    margin: auto;
-    padding: 2em;
+.summarizer-container h1 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 24px;
+  color: #5e2ca5;
 }
 
-/* === Homepage Header === */
-h1 {
-    font-size: 2.5rem;
-    color: #5e2ca5;
-    margin-bottom: 0.5em;
-    font-weight: 600;
+#text-input {
+  width: 100%;
+  height: 180px;
+  padding: 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: 'Poppins', sans-serif;
+  resize: vertical;
+  margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
-.tagline {
-    font-style: italic;
-    margin-bottom: 2rem;
-    color: #555;
+.output-box {
+  margin-top: 20px;
+  background-color: #f2f2ff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
 }
 
-/* === Button Row === */
 .button-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-    margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
 }
 
-.tool-button {
-    background-color: #5e2ca5;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    cursor: pointer;
-    display: inline-block;
-    text-align: center;
-    border: none;
+button, .download-button {
+  background-color: #5e2ca5;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
 }
 
-.tool-button:hover {
-    background-color: #4c2391;
-    transform: scale(1.05);
+button:hover, .download-button:hover {
+  background-color: #4c2391;
 }
 
-/* === Snorby Image === */
-.snorby-image {
-    display: block;
-    margin: 20px auto 0;
-    max-width: 100%;
-    height: auto;
-    border-radius: 12px;
+.bouncing {
+  animation: bounce 0.4s ease;
 }
 
-/* === Summarizer specific styles === */
-.container.summarizer {
-    max-width: 700px;
-    margin: 60px auto;
-    padding: 30px;
-    background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 16px;
-    text-align: left; /* form content aligned left */
+@keyframes bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
-.container.summarizer h1 {
-    text-align: center;
-    font-size: 2rem;
-    color: #5e2ca5;
-    margin-bottom: 24px;
-    font-weight: 600;
-}
-
-.container.summarizer textarea {
-    width: 100%;
-    height: 180px;
-    padding: 16px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-family: 'Poppins', sans-serif;
-    resize: vertical;
-    margin-bottom: 20px;
-}
-
-.container.summarizer .output-box {
-    margin-top: 20px;
-    background-color: #f2f2ff;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-}
-
-.download-button {
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-}
-
-/* Responsive for summarizer */
-@media (max-width: 480px) {
-    .container.summarizer {
-        margin: 20px 15px;
-        padding: 20px 15px;
-    }
-
-    .container.summarizer textarea {
-        font-size: 14px;
-        height: 140px;
-    }
-
-    .container.summarizer .tool-button {
-        width: 100%;
-        margin: 10px 0 0 0;
-        padding: 14px;
-        font-size: 16px;
-    }
+#summary-text {
+  white-space: pre-wrap;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.6;
+  text-align: left; /* ✅ added for proper summary alignment */
 }

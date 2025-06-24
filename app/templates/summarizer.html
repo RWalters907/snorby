@@ -8,57 +8,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    /* Keep minimal style here, main styling done in style.css */
-    .bouncing {
-      animation: bounce 0.4s ease;
-    }
-
-    @keyframes bounce {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.1);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    #summary-text {
-      white-space: pre-wrap;
-      font-size: 15px;
-      color: #333;
-      line-height: 1.6;
-    }
-  </style>
 </head>
 <body>
-  <div class="container summarizer">
+  <div class="summarizer-container">
     <h1>Smart Summarizer</h1>
-
+    
     <form id="summary-form">
-      <textarea
-        id="text-input"
-        name="text"
-        placeholder="Enter text to summarize..."
-        required
-      ></textarea>
-      <button id="summarize-button" type="submit" class="tool-button">Summarize</button>
+      <textarea id="text-input" name="text" placeholder="Enter text to summarize..." required></textarea>
+      <div class="button-row">
+        <button id="summarize-button" type="submit">Summarize</button>
+      </div>
     </form>
 
     <div id="result" class="output-box" style="display: none;">
       <p id="summary-text"></p>
-      <div style="text-align: center; margin-top: 16px;">
-        <a
-          id="download-link"
-          href="#"
-          class="tool-button download-button"
-          style="display: none;"
-          download="summary.txt"
-          >Save</a
-        >
+      <div class="button-row">
+        <a id="download-link" href="#" class="download-button" style="display: none;" download="summary.txt">Save</a>
       </div>
     </div>
   </div>
